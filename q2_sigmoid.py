@@ -14,14 +14,16 @@ def sigmoid(x):
     s -- sigmoid(x)
     """
 
+    return 1.0 / (1.0 + np.exp(-x))
     ### YOUR CODE HERE
-    raise NotImplementedError
+    #raise NotImplementedError
     ### END YOUR CODE
 
-    return s
+    #return s
 
 
 def sigmoid_grad(s):
+    
     """
     Compute the gradient for the sigmoid function here. Note that
     for this implementation, the input s should be the sigmoid
@@ -33,12 +35,14 @@ def sigmoid_grad(s):
     Return:
     ds -- Your computed gradient.
     """
+    #sig = sigmoid(s)
+    return s * (1.0 - s)
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    #raise NotImplementedError
     ### END YOUR CODE
 
-    return ds
+    #return ds
 
 
 def test_sigmoid_basic():
