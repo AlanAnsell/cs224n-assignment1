@@ -39,13 +39,24 @@ def forward_backward_prop(X, labels, params, dimensions):
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
     # Note: compute cost based on `sum` not `mean`.
-    ### YOUR CODE HERE: forward propagation
-    raise NotImplementedError
-    ### END YOUR CODE
+    A1 = sigmoid(np.matmul(X, W1) + b1)
+    A2 = np.matmul(A1, W2) + b2
+    Y_hat = softmax(A2)
+    S = np.sum(labels * Y_hat, axis=1)
+    cost = -np.sum(np.log(S))
+
+    
 
     ### YOUR CODE HERE: backward propagation
-    raise NotImplementedError
+    #raise NotImplementedError
     ### END YOUR CODE
+    dJ_dA2 = Y_hat - labels
+    gradb2 = np.sum(dJ_dA2, axis=0).reshape(1, Dy)
+    gradW2 = np.matmul(np.transpose(A1), dJ_dA2)
+    dJ_dA1 = np.matmul(dJ_dA2, np.transpose(W2))
+    tmp = dJ_dA1 * sigmoid_grad(A1)
+    gradb1 = np.sum(tmp, axis=0).reshape(1, H)
+    gradW1 = np.matmul(np.transpose(X), tmp)
 
     ### Stack gradients (do not modify)
     grad = np.concatenate((gradW1.flatten(), gradb1.flatten(),
@@ -70,6 +81,12 @@ def sanity_check():
 
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
         dimensions[1] + 1) * dimensions[2], )
+
+    cost, grad = forward_backward_prop(data, labels, params, dimensions)
+    print "Cost:"
+    print cost
+    print "Grad:"
+    print grad
 
     gradcheck_naive(lambda params:
         forward_backward_prop(data, labels, params, dimensions), params)

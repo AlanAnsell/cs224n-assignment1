@@ -83,9 +83,11 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
         # Don't forget to apply the postprocessing after every iteration!
         # You might want to print the progress every few iterations.
 
-        cost = None
+        cost, grad = f(x)
+        x = postprocessing(x - step * grad)
+
         ### YOUR CODE HERE
-        raise NotImplementedError
+        #raise NotImplementedError
         ### END YOUR CODE
 
         if iter % PRINT_EVERY == 0:
